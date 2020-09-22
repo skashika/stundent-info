@@ -3,30 +3,40 @@
     <h3>Edit Employee</h3>
     <div class = "row">
       <form @submit.prevent="updateEmployee" class="col s12">
+
+
         <!-- ID -->
         <div class="row">
           <div class="input-field col s12">
             <input disabled type="text" v-model="employee_id" required>
           </div>
         </div>
+
+
         <!-- Name -->
         <div class="row">
           <div class="input-field col s12">
             <input type="text" v-model="name" required>
           </div>
         </div>
+
+
         <!-- Department -->
         <div class="row">
           <div class="input-field col s12">
             <input type="text" v-model="dept" required>
           </div>
         </div>
+
+
         <!-- Entry for Position-->
         <div class="row">
           <div class="input-field col s12">
             <input type="text" v-model="position" required>
           </div>
         </div>
+
+
         <button type="submit" class="btn">Confirm</button>
         <router-link to="/" class="btn grey">Cancel</router-link>
       </form>
@@ -60,11 +70,11 @@ export default {
         })
       })
   },
-  watch: {
+  /*watch: {
     '$route': 'fetchData'
-  },
+  },*/
   methods: {
-    fetchData (){
+    /*fetchData (){
       db.collection('employees').where
       ('employee_id', '==',
         this.$route.params.employee_id).get()
@@ -76,7 +86,7 @@ export default {
             this.position = doc.data().position
           })
         })
-    },
+    },*/
     updateEmployee() {
       db.collection('employees').where
       ('employee_id', '==',

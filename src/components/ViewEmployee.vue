@@ -33,6 +33,7 @@ export default {
       querySnapshot.forEach(doc => {
         next(vm => {
           vm.employee_id = doc.data().employee_id
+          console.log(vm.employee_id)
           vm.name = doc.data().name
           vm.dept = doc.data().dept
           vm.position = doc.data().position
@@ -40,11 +41,11 @@ export default {
       })
     })
   },
-  watch: {
+  /*watch: {
     '$route': 'fetchData'
-  },
+  },*/
   methods: {
-    fetchData (){
+    /*fetchData (){
       db.collection('employees').where
       ('employee_id', '==',
         this.$route.params.employee_id).get()
@@ -56,7 +57,7 @@ export default {
             this.position = doc.data().position
           })
         })
-    },
+    },*/
     deleteEmployee (){
       if(confirm('Are you sure?')){
         db.collection('employees').where

@@ -2,7 +2,9 @@
   <div id="dashboard">
     <ul class="collection with-header">
       <li class="collection-header"><h4>Employees</h4></li>
-      <li v-for="employee in employee" v-bind:key="employee.id" class="collection-item">
+      <input type="text" v-model="search" placeholder="search here" />
+      <!--<li v-for="employee in filtered_search" v-bind:key="employee.id" class="collection-item">-->
+      <li v-for="employee in filtered_search" v-bind:key="employee.id" class="collection-item">
         <div class="chip">{{employee.dept}}</div>
         {{employee.employee_id}}:{{employee.name}}
 
@@ -29,7 +31,8 @@ export default {
   name: 'dashboard',
   data(){
     return{
-      employee: []
+      employee: [],
+      search: ""
     }
   },
   created (){
@@ -43,11 +46,18 @@ export default {
           'employee_id': doc.data().employee_id,
           'name': doc.data().name,
           'dept': doc.data().dept,
-          'position' : doc.data().position,
+          'position' : doc.data().position
         }
         this.employee.push(data)
       })
     })
+  },
+  computed:{
+    filtered_search: function(){
+      return this.employee.filter((employee) =>{
+        return employee.name.match(this.search)
+      })
+    }
   }
 }
 </script>
