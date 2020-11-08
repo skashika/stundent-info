@@ -1,23 +1,31 @@
 <template>
   <div id="dashboard">
     <ul class="collection with-header">
-      <li class="collection-header"><h4>Employees</h4></li>
-      <input type="text" v-model="search" placeholder="search here" />
-      <!--<li v-for="employee in filtered_search" v-bind:key="employee.id" class="collection-item">-->
-      <li v-for="employee in filtered_search" v-bind:key="employee.id" class="collection-item">
-        <div class="chip">{{employee.dept}}</div>
-        {{employee.employee_id}}:{{employee.name}}
 
+      <li class="collection-header"><h4>Students</h4></li>
+    </ul>
+    <br>
+    <div class="row">
+      <div class="input-field">
+        <input type="text" v-model="search" placeholder="search here" />
+      </div>
+    </div>
+
+    <br>
+    <ul class="collection with-header">
+      <li v-for="student in filtered_search" v-bind:key="student.id" class="collection-item">
+        <div class="chip">{{student.major}}</div>
+        {{student.student_id}}:{{student.student_name}}
         <router-link class="secondary-content" v-bind:to="{name:
-        'view-employee', params: {employee_id: employee.employee_id}}">
-          <i class="fa fa-eye"></i>
+        'view-student', params: {student_id: student.student_id}}">
+          <i class="fa fa-eye">View</i>
         </router-link>
-       </li>
+      </li>
     </ul>
 
     <!-- <div class="fixed-action-btn">
        <router-link to="/new" class="btn-floating btn-large red"> -->
-       <!-- <i class="fa fa-plus"></i> -->
+    <!-- <i class="fa fa-plus"></i> -->
     <div>
       <router-link to="/new" class="btn red">New Student
       </router-link>
@@ -31,33 +39,36 @@ export default {
   name: 'dashboard',
   data(){
     return{
-      employee: [],
+      student: [],
       search: ""
     }
   },
   created (){
     //runs after component is created/loaded automatically
-    db.collection('employees').orderBy('employee_id').get().then(querySnapshot =>
+    db.collection('student').orderBy('student_id').get().then(querySnapshot =>
     {
       querySnapshot.forEach(doc => {
         console.log(doc.data())
         const data = {
           'id': doc.id,
-          'employee_id': doc.data().employee_id,
-          'name': doc.data().name,
-          'dept': doc.data().dept,
-          'position' : doc.data().position
+          'student_id': doc.data().student_id,
+          'student_name': doc.data().student_name,
+          'major': doc.data().major,
+          'degree_type' : doc.data().degree_type,
+          'year_of_graduation': doc.data().year_of_graduation
         }
-        this.employee.push(data)
+        this.student.push(data)
       })
     })
   },
-  computed:{
-    filtered_search: function(){
-      return this.employee.filter((employee) =>{
-        return employee.name.match(this.search)
+  computed:{    filtered_search: function(){
+      return this.student.filter((student) =>{
+        return student.student_name.toLowerCase().match(this.search.toLowerCase()) ||
+          student.major.toLowerCase().match(this.search.toLowerCase()) ||
+          student.student_id.match(this.search)
       })
     }
   }
+
 }
 </script>
